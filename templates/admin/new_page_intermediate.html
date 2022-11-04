@@ -1,0 +1,35 @@
+{% extends "admin/base_site.html" %} 
+
+{% block content %}
+    <form action="" method="post">
+    {% csrf_token %}
+
+    <h1>Create Page from Selection</h1>
+    
+    <div style="padding: 20px 0;">
+    <p><strong>Selected Products:</strong></p>
+    {% for product in products %}
+        <p>{{ product }}</p>
+
+        <input type="hidden" name="_selected_action" value="{{ product.pk }}" />
+    {% endfor %}
+    </div>
+    
+
+    <p><strong>Page Slug:</strong></p>
+    <input type="text" name="page_slug" style="width: 400px;" required />
+
+    <p><strong>Page Title:</strong></p>
+    <input type="text" name="page_title" style="width: 400px;" required />
+
+    <p><strong>Page Category:</strong></p>
+    <select name="page_category">
+        <option value="{{ category }}" selected>{{category}}</option>
+    </select>
+    <p><small>You can not change the category</small></p>
+
+    <p style="margin-top: 30px; color: darkred;">Are you sure you want to create a new page with the selected products?</p>
+    <input type="hidden" name="action" value="new_page" />
+    <input type="submit" name="apply" value="Add New Page" />
+    </form>
+{% endblock %}
