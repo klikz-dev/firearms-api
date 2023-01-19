@@ -84,7 +84,10 @@ class Command(BaseCommand):
         debug("Product", 0, "Start Processing {} Products".format(retailer))
 
         for row in rows:
-            product = Product(sku=row.sku)
+            try:
+                product = Product.objects.get(sku=row.sku)
+            except Product.DoesNotExist:
+                product = Product.objects.create(sku=row.sku)
 
             product.retailer = retailer
             product.manufacturer_id = row.manufacturer_id
@@ -206,6 +209,8 @@ class Command(BaseCommand):
                 product.save()
             except Exception as e:
                 print(e)
+                debug("Product", 1,
+                      "Failed Processing {}".format(row.sku))
                 continue
 
             # Set Price History
