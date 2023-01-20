@@ -265,7 +265,11 @@ class Command(BaseCommand):
                 if pageSlug == "":
                     continue
 
-                page = Page(slug=pageSlug)
+                try:
+                    page = Page.objects.get(slug=pageSlug)
+                except Page.DoesNotExist:
+                    page = Page.objects.create(slug=pageSlug)
+
                 page.title = pageTitle
 
                 category = Category.objects.get(slug=category_name)
