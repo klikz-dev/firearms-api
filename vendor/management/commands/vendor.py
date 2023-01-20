@@ -35,8 +35,11 @@ class Command(BaseCommand):
         if "page" in options['functions']:
             self.page()
 
-        if "clean" in options['functions']:
-            self.clean()
+        if "cleanProducts" in options['functions']:
+            self.cleanProducts()
+
+        if "cleanPages" in options['functions']:
+            self.cleanPages()
 
         if "deletebuggy" in options['functions']:
             self.deletebuggy()
@@ -230,10 +233,11 @@ class Command(BaseCommand):
 
     def page(self):
         categories = set(
-            [p['category'] for p in Product.objects.values('category')])
+            [p['category'] for p in Product.objects.values('category').order_by('category')])
 
         for category_name in categories:
-            products = Product.objects.filter(category=category_name)
+            products = Product.objects.filter(
+                category=category_name).order_by('sku')
 
             for product1 in products:
                 largest_common_name_words = []
@@ -287,16 +291,17 @@ class Command(BaseCommand):
                 product1.save()
                 product2.save()
 
-                print("Page {} has been created.".format(pageSlug))
-
             debug("Page", 0, "Pages for category {} have been created successfully".format(
                 category_name))
 
-    def clean(self):
+    def cleanProducts(self):
         Product.objects.all().delete()
         Category.objects.all().delete()
         Brand.objects.all().delete()
         Subcategory.objects.all().delete()
+
+    def cleanPages(self):
+        Page.objects.all().delete()
 
     def deletebuggy(self):
         products = Product.objects.values('sku', 'subcategory')
