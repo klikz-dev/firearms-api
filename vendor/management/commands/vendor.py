@@ -265,23 +265,22 @@ class Command(BaseCommand):
                 if pageSlug == "":
                     continue
 
-                try:
-                    page = Page.objects.get(slug=pageSlug)
-                except Page.DoesNotExist:
-                    page = Page.objects.create(slug=pageSlug)
-
-                page.title = pageTitle
-
                 category = Category.objects.get(slug=category_name)
                 category.save()
 
-                page.category = category
                 subcategory = Subcategory.objects.get(
                     slug=product1.subcategory)
                 brand = Brand.objects.get(slug=subcategory.brand)
-                page.brand = brand
 
-                page.save()
+                try:
+                    page = Page.objects.get(slug=pageSlug)
+                    page.title = pageTitle
+                    page.category = category
+                    page.brand = brand
+                    page.save()
+                except Page.DoesNotExist:
+                    page = Page.objects.create(
+                        slug=pageSlug, title=pageTitle, category=category, brand=brand)
 
                 product1.page.add(page)
                 product2.page.add(page)
