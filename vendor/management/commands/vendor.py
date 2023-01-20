@@ -232,8 +232,11 @@ class Command(BaseCommand):
         debug("Product", 0, "Completed Processing {} Products".format(retailer))
 
     def page(self):
-        categories = set(
-            [p['category'] for p in Product.objects.values('category').order_by('category')])
+        categories = set([p['category'] for p in Product.objects.exclude(
+            category=None).values('category')])
+
+        categories = list(categories)
+        categories.sort()
 
         for category_name in categories:
             products = Product.objects.filter(
