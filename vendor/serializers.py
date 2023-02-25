@@ -54,7 +54,11 @@ class PageListSerializer(serializers.ModelSerializer):
     
     def get_subcategory(self, page):
         products = Product.objects.filter(page=page).order_by('-sale_price')
-        return products[0].subcategory.name
+        try:
+            subcategory = Subcategory.objects.get(slug=products[0].subcategory)
+            return subcategory.name
+        except Subcategory.DoesNotExist:
+            return ''
 
     class Meta:
         model = Page
