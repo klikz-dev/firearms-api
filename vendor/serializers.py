@@ -51,11 +51,15 @@ class PageListSerializer(serializers.ModelSerializer):
     def get_thumb_url(self, page):
         products = Product.objects.filter(page=page).order_by('-sale_price')
         return products[0].thumb_url
+    
+    def get_subcategory(self, page):
+        products = Product.objects.filter(page=page).order_by('-sale_price')
+        return products[0].subcategory.name
 
     class Meta:
         model = Page
         fields = ['url', 'slug', 'title', 'brand', 'category', 'pre_category_rank',
-                  'pre_brand_rank', 'product_num', 'sale_price', 'thumb_url', 'updated_at']
+                  'pre_brand_rank', 'product_num', 'sale_price', 'thumb_url', 'description', 'updated_at']
 
 
 class PageProductRetrieveSerializer(serializers.ModelSerializer):
