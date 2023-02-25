@@ -40,6 +40,7 @@ class PageListSerializer(serializers.ModelSerializer):
     product_num = serializers.SerializerMethodField(read_only=True)
     sale_price = serializers.SerializerMethodField(read_only=True)
     thumb_url = serializers.SerializerMethodField(read_only=True)
+    subcategory = serializers.SerializerMethodField(read_only=True)
 
     def get_product_num(self, page):
         return page.product.count()
