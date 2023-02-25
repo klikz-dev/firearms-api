@@ -59,7 +59,7 @@ class PageListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Page
         fields = ['url', 'slug', 'title', 'brand', 'category', 'pre_category_rank',
-                  'pre_brand_rank', 'product_num', 'sale_price', 'thumb_url', 'description', 'updated_at']
+                  'pre_brand_rank', 'product_num', 'subcategory', 'sale_price', 'thumb_url', 'description', 'updated_at']
 
 
 class PageProductRetrieveSerializer(serializers.ModelSerializer):
