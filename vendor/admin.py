@@ -221,9 +221,58 @@ class PageAdmin(admin.ModelAdmin):
 
     search_fields = ['slug', 'title']
 
-    list_display = ('slug', 'title', 'brand', 'category',
-                    'product_num', 'pre_category_rank', 'pre_brand_rank',
-                    'rel_Brownells', 'rel_Palmetto', 'rel_EuroOptic', 'rel_Gritr', 'rel_Guns', 'rel_PrimaryArms', 'rel_Sportsman')
+    list_display = (
+        'slug',
+        'title',
+        'brand',
+        'category',
+        'product_num',
+        'pre_category_rank',
+        'pre_brand_rank',
+    )
+
+    fieldsets = (
+        ('Main', {
+            "fields": (
+                'slug',
+                'title',
+                'brand',
+                'category'
+            ),
+        }),
+        ('Rank', {
+            "fields": (
+                'pre_category_rank',
+                'pre_brand_rank',
+            ),
+        }),
+        ('Brand Cross sell', {
+            "fields": (
+                'rel_Brownells',
+                'rel_Palmetto',
+                'rel_EuroOptic',
+                'rel_Gritr',
+                'rel_Guns',
+                'rel_PrimaryArms',
+                'rel_Sportsman'
+            ),
+        }),
+        ('Overwrite Stat Values', {
+            "fields": (
+                'stat_acc',
+                'stat_erg',
+                'stat_ftr',
+                'stat_fit',
+                'stat_rel',
+                'stat_val',
+            ),
+        }),
+        ('Product', {
+            "fields": (
+                'product',
+            ),
+        }),
+    )
 
     def get_queryset(self, request):
         qs = super(PageAdmin, self).get_queryset(request)

@@ -247,6 +247,13 @@ class Page(models.Model):
     rel_PrimaryArms = models.FloatField(default=1.5, null=True, blank=True)
     rel_Sportsman = models.FloatField(default=1.5, null=True, blank=True)
 
+    stat_acc = models.IntegerField(default=-1, null=True, blank=True)
+    stat_erg = models.IntegerField(default=-1, null=True, blank=True)
+    stat_ftr = models.IntegerField(default=-1, null=True, blank=True)
+    stat_fit = models.IntegerField(default=-1, null=True, blank=True)
+    stat_rel = models.IntegerField(default=-1, null=True, blank=True)
+    stat_val = models.IntegerField(default=-1, null=True, blank=True)
+
     description = models.TextField(default=None, null=True, blank=True)
 
     product = models.ManyToManyField(Product, related_name='page')

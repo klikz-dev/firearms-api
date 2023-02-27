@@ -53,7 +53,7 @@ class PageListSerializer(serializers.ModelSerializer):
     def get_thumb_url(self, page):
         products = Product.objects.filter(page=page).order_by('-sale_price')
         return products[0].thumb_url
-    
+
     def get_subcategory(self, page):
         products = Product.objects.filter(page=page).order_by('-sale_price')
         try:
@@ -61,7 +61,7 @@ class PageListSerializer(serializers.ModelSerializer):
             return subcategory.name
         except Subcategory.DoesNotExist:
             return ''
-        
+
     def get_description(self, page):
         products = Product.objects.filter(page=page).order_by('-sale_price')
         description = page.description
@@ -73,8 +73,10 @@ class PageListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Page
-        fields = ['url', 'slug', 'title', 'brand', 'category', 'pre_category_rank',
-                  'pre_brand_rank', 'product_num', 'subcategory', 'sale_price', 'thumb_url', 'description', 'updated_at']
+        fields = ['url', 'slug', 'title', 'brand', 'category',
+                  'pre_category_rank', 'pre_brand_rank',
+                  'stat_acc', 'stat_erg', 'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val',
+                  'product_num', 'subcategory', 'sale_price', 'description', 'thumb_url', 'updated_at']
 
 
 class PageProductRetrieveSerializer(serializers.ModelSerializer):
@@ -102,9 +104,10 @@ class PageRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Page
-        fields = ['slug', 'title', 'description',
-                  'brand', 'category', 'pre_category_rank', 'pre_brand_rank',
+        fields = ['slug', 'title', 'description', 'brand', 'category',
+                  'pre_category_rank', 'pre_brand_rank',
                   'rel_Brownells', 'rel_Palmetto', 'rel_EuroOptic', 'rel_Gritr', 'rel_Guns', 'rel_PrimaryArms', 'rel_Sportsman',
+                  'stat_acc', 'stat_erg', 'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val',
                   'product']
 
 
