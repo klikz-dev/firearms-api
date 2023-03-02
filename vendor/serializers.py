@@ -61,14 +61,19 @@ class PageListSerializer(serializers.ModelSerializer):
             return subcategory.name
         except Subcategory.DoesNotExist:
             return ''
+        except:
+            return ''
 
     def get_description(self, page):
         products = Product.objects.filter(page=page).order_by('-sale_price')
         description = page.description
-        if products[0].short_description:
-            description = products[0].short_description
-        if products[0].long_description:
-            description = products[0].long_description
+        try:
+            if products[0].short_description:
+                description = products[0].short_description
+            if products[0].long_description:
+                description = products[0].long_description
+        except:
+            pass
         return description
 
     class Meta:
