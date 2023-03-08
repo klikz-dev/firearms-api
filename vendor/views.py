@@ -1,9 +1,10 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
+from rest_framework import status
 from rest_framework.response import Response
 from vendor.pagination import StandardResultsSetPagination
-from vendor.serializers import BrandListSerializer, BrandRetrieveSerializer, BrandSlugSerializer, CategoryListSerializer, CategoryRetrieveSerializer, CategorySlugSerializer, PageListSerializer, PageRetrieveSerializer, PageSlugSerializer, ProductListSerializer, ProductRetrieveSerializer, SubcategoryListSerializer, SubcategoryRetrieveSerializer, SubcategorySlugSerializer
-from vendor.models import Brand, Category, Page, Product, Subcategory
+from vendor.serializers import BrandListSerializer, BrandRetrieveSerializer, BrandSlugSerializer, CategoryListSerializer, CategoryRetrieveSerializer, CategorySlugSerializer, PageListSerializer, PageRetrieveSerializer, PageSlugSerializer, ProductListSerializer, ProductRetrieveSerializer, SubcategoryListSerializer, SubcategoryRetrieveSerializer, SubcategorySlugSerializer, ReviewListSerializer, ReviewRetrieveSerializer
+from vendor.models import Brand, Category, Page, Product, Subcategory, Review
 from django.db.models import Count
 
 
@@ -136,6 +137,37 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer = ProductRetrieveSerializer(
             instance=product, context={'request': request})
         return Response(serializer.data)
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewListSerializer
+
+    def list(self, request):
+        reviews = Review.objects.all()
+
+        page = self.paginate_queryset(reviews)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(reviews, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        reviews = Review.objects.all()
+        review = get_object_or_404(reviews, slug=pk)
+        serializer = ReviewRetrieveSerializer(
+            instance=review, context={'request': request})
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 ##### Sitemap #####

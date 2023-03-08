@@ -8,7 +8,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from advanced_filters.admin import AdminAdvancedFiltersMixin
 from rangefilter.filters import DateRangeFilter
 from django.utils.translation import gettext_lazy as _
-from vendor.models import Brand, Category, PriceHistory, Product, Page, Subcategory
+from vendor.models import Brand, Category, PriceHistory, Product, Page, Review, Subcategory
 
 
 class PriceHistoryInline(admin.TabularInline):
@@ -163,6 +163,36 @@ class ProductInline(admin.TabularInline):
         return False
 
 
+class ReviewAdmin(admin.ModelAdmin):
+    fields = ['page', 'name', 'review', 'stat_acc', 'stat_erg',
+              'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val']
+
+    list_display = ('page', 'name', 'review', 'stat_acc', 'stat_erg',
+                    'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val')
+
+    search_fields = ['name', 'review']
+
+
+class ReviewInline(admin.TabularInline):
+    model = Review
+    extra = 0
+
+    fields = ['name', 'stat_acc', 'stat_erg',
+              'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val']
+
+    def get_readonly_fields(self, request, obj=None):
+        return self.fields or [f.name for f in self.model._meta.fields]
+
+    def has_add_permission(self, request, obj):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
 class PageAdminForm(forms.ModelForm):
     class Meta:
         model = Page
@@ -274,6 +304,8 @@ class PageAdmin(admin.ModelAdmin):
         }),
     )
 
+    inlines = [ReviewInline]
+
     def get_queryset(self, request):
         qs = super(PageAdmin, self).get_queryset(request)
         qs = qs.annotate(Count('product'))
@@ -281,7 +313,6 @@ class PageAdmin(admin.ModelAdmin):
 
     def product_num(self, obj):
         return obj.product__count
-
     product_num.admin_order_field = 'product__count'
 
 
@@ -482,6 +513,7 @@ class BrandAdmin(admin.ModelAdmin):
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Page, PageAdmin)
+admin.site.register(Review, ReviewAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Subcategory, SubcategoryAdmin)
 admin.site.register(Brand, BrandAdmin)

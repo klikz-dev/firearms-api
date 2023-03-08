@@ -288,6 +288,27 @@ class Page(models.Model):
         return HttpResponseRedirect("/admin/vendor/page/{}".format(self.slug))
 
 
+class Review(models.Model):
+    page = models.ForeignKey(
+        Page, related_name='reviews', on_delete=models.CASCADE)
+
+    name = models.CharField(
+        max_length=200, default=None, null=True, blank=True)
+    review = models.TextField(
+        max_length=5000, default=None, null=True, blank=True)
+    stat_acc = models.IntegerField(default=-1, null=True, blank=True)
+    stat_erg = models.IntegerField(default=-1, null=True, blank=True)
+    stat_ftr = models.IntegerField(default=-1, null=True, blank=True)
+    stat_fit = models.IntegerField(default=-1, null=True, blank=True)
+    stat_rel = models.IntegerField(default=-1, null=True, blank=True)
+    stat_val = models.IntegerField(default=-1, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
 class PriceHistory(models.Model):
     product = models.ForeignKey(
         Product, related_name='pricehistory', on_delete=models.CASCADE)

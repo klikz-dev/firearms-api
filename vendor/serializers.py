@@ -1,4 +1,4 @@
-from vendor.models import Brand, Category, Page, PriceHistory, Product, Subcategory
+from vendor.models import Brand, Category, Page, PriceHistory, Product, Subcategory, Review
 from rest_framework import serializers
 
 
@@ -34,14 +34,39 @@ class ProductRetrieveSerializer(serializers.ModelSerializer):
 
 
 #######################################################
+###################### Review #########################
+#######################################################
+class ReviewListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['page', 'name', 'review', 'stat_acc', 'stat_erg',
+                  'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'created_at']
+
+
+class ReviewRetrieveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['page', 'name', 'review', 'stat_acc', 'stat_erg',
+                  'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'created_at']
+
+
+#######################################################
 ####################### Page ##########################
 #######################################################
+class PageReviewsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['name', 'review', 'stat_acc', 'stat_erg',
+                  'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'created_at']
+
+
 class PageListSerializer(serializers.ModelSerializer):
     product_num = serializers.SerializerMethodField(read_only=True)
     sale_price = serializers.SerializerMethodField(read_only=True)
     thumb_url = serializers.SerializerMethodField(read_only=True)
     subcategory = serializers.SerializerMethodField(read_only=True)
     description = serializers.SerializerMethodField(read_only=True)
+    reviews = PageReviewsSerializer(many=True, read_only=True)
 
     def get_product_num(self, page):
         return page.product.count()
@@ -80,7 +105,7 @@ class PageListSerializer(serializers.ModelSerializer):
         model = Page
         fields = ['url', 'slug', 'title', 'brand', 'category',
                   'pre_category_rank', 'pre_brand_rank',
-                  'stat_acc', 'stat_erg', 'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val',
+                  'stat_acc', 'stat_erg', 'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'reviews',
                   'product_num', 'subcategory', 'sale_price', 'description', 'thumb_url', 'updated_at']
 
 
@@ -106,13 +131,14 @@ class PageRetrieveSerializer(serializers.ModelSerializer):
     product = PageProductRetrieveSerializer(many=True, read_only=True)
     brand = PageBrandRetrieveSerializer(read_only=True)
     category = PageCategoryRetrieveSerializer(read_only=True)
+    reviews = PageReviewsSerializer(many=True, read_only=True)
 
     class Meta:
         model = Page
         fields = ['slug', 'title', 'description', 'brand', 'category',
                   'pre_category_rank', 'pre_brand_rank',
                   'rel_Brownells', 'rel_Palmetto', 'rel_EuroOptic', 'rel_Gritr', 'rel_Guns', 'rel_PrimaryArms', 'rel_Sportsman',
-                  'stat_acc', 'stat_erg', 'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val',
+                  'stat_acc', 'stat_erg', 'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'reviews',
                   'product']
 
 
