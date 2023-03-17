@@ -56,7 +56,7 @@ class ReviewRetrieveSerializer(serializers.ModelSerializer):
 class PageReviewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ['name', 'review', 'stat_acc', 'stat_erg',
+        fields = ['name', 'email', 'review', 'stat_acc', 'stat_erg',
                   'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'created_at']
 
 
