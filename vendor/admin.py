@@ -164,20 +164,20 @@ class ProductInline(admin.TabularInline):
 
 
 class ReviewAdmin(admin.ModelAdmin):
-    fields = ['page', 'name', 'review', 'stat_acc', 'stat_erg',
+    fields = ['page', 'name', 'email', 'review', 'stat_acc', 'stat_erg',
               'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val']
 
-    list_display = ('page', 'name', 'review', 'stat_acc', 'stat_erg',
+    list_display = ('page', 'name','email', 'review', 'stat_acc', 'stat_erg',
                     'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val')
 
-    search_fields = ['name', 'review']
+    search_fields = ['name', 'email', 'review']
 
 
 class ReviewInline(admin.TabularInline):
     model = Review
     extra = 0
 
-    fields = ['name', 'stat_acc', 'stat_erg',
+    fields = ['name', 'email', 'stat_acc', 'stat_erg',
               'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val']
 
     def get_readonly_fields(self, request, obj=None):

@@ -39,14 +39,14 @@ class ProductRetrieveSerializer(serializers.ModelSerializer):
 class ReviewListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ['page', 'name', 'review', 'stat_acc', 'stat_erg',
+        fields = ['page', 'name', 'email', 'review', 'stat_acc', 'stat_erg',
                   'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'created_at']
 
 
 class ReviewRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ['page', 'name', 'review', 'stat_acc', 'stat_erg',
+        fields = ['page', 'name', 'email', 'review', 'stat_acc', 'stat_erg',
                   'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'created_at']
 
 

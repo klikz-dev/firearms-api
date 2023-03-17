@@ -294,6 +294,8 @@ class Review(models.Model):
 
     name = models.CharField(
         max_length=200, default=None, null=True, blank=True)
+    email = models.EmailField(
+        max_length=200, default=None, null=True, blank=True)
     review = models.TextField(
         max_length=5000, default=None, null=True, blank=True)
     stat_acc = models.IntegerField(default=-1, null=True, blank=True)
