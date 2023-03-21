@@ -40,14 +40,14 @@ class ReviewListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['page', 'name', 'email', 'review', 'stat_acc', 'stat_erg',
-                  'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'created_at']
+                  'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'status', 'created_at']
 
 
 class ReviewRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['page', 'name', 'email', 'review', 'stat_acc', 'stat_erg',
-                  'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'created_at']
+                  'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'status', 'created_at']
 
 
 #######################################################
@@ -57,7 +57,7 @@ class PageReviewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['name', 'email', 'review', 'stat_acc', 'stat_erg',
-                  'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'created_at']
+                  'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'status', 'created_at']
 
 
 class PageListSerializer(serializers.ModelSerializer):

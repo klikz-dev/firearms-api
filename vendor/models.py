@@ -289,6 +289,12 @@ class Page(models.Model):
 
 
 class Review(models.Model):
+    STATUSES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('denied', 'Denied'),
+    )
+
     page = models.ForeignKey(
         Page, related_name='reviews', on_delete=models.CASCADE)
 
@@ -304,6 +310,9 @@ class Review(models.Model):
     stat_fit = models.IntegerField(default=-1, null=True, blank=True)
     stat_rel = models.IntegerField(default=-1, null=True, blank=True)
     stat_val = models.IntegerField(default=-1, null=True, blank=True)
+
+    status = models.CharField(
+        max_length=20, choices=STATUSES, default='pending')
 
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 

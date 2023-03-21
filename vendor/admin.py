@@ -165,10 +165,12 @@ class ProductInline(admin.TabularInline):
 
 class ReviewAdmin(admin.ModelAdmin):
     fields = ['page', 'name', 'email', 'review', 'stat_acc', 'stat_erg',
-              'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val']
+              'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'status']
 
     list_display = ('page', 'name','email', 'review', 'stat_acc', 'stat_erg',
-                    'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val')
+                    'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'status')
+    
+    list_filter = ['status']
 
     search_fields = ['name', 'email', 'review']
 

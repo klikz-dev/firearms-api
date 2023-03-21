@@ -145,6 +145,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         reviews = Review.objects.all()
+        reviews = reviews.filter(status='approved')
 
         page = self.paginate_queryset(reviews)
         if page is not None:
