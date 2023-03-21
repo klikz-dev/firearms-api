@@ -164,12 +164,38 @@ class ProductInline(admin.TabularInline):
 
 
 class ReviewAdmin(admin.ModelAdmin):
+    actions = ['approve', 'deny']
+
+    def approve(self, request, queryset):
+        if 'approve' in request.POST['action']:
+            for review in queryset:
+                print(review)
+                review.status = 'approved'
+                review.save()
+
+            self.message_user(request,
+                              "Successfully approved {} reviews".format(queryset.count()))
+            return HttpResponseRedirect("/admin/vendor/review")
+
+    def deny(self, request, queryset):
+        if 'deny' in request.POST['action']:
+            for review in queryset:
+                review.status = 'denied'
+                review.save()
+
+            self.message_user(request,
+                              "Successfully denied {} reviews".format(queryset.count()))
+            return HttpResponseRedirect("/admin/vendor/review")
+
+    approve.short_description = "Approve Selected Reviews"
+    deny.short_description = "Deny Selected Reviews"
+
     fields = ['page', 'name', 'email', 'review', 'stat_acc', 'stat_erg',
               'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'status']
 
-    list_display = ('page', 'name','email', 'review', 'stat_acc', 'stat_erg',
+    list_display = ('page', 'name', 'email', 'review', 'stat_acc', 'stat_erg',
                     'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'status')
-    
+
     list_filter = ['status']
 
     search_fields = ['name', 'email', 'review']
@@ -180,19 +206,7 @@ class ReviewInline(admin.TabularInline):
     extra = 0
 
     fields = ['name', 'email', 'stat_acc', 'stat_erg',
-              'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val']
-
-    def get_readonly_fields(self, request, obj=None):
-        return self.fields or [f.name for f in self.model._meta.fields]
-
-    def has_add_permission(self, request, obj):
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
+              'stat_ftr', 'stat_fit', 'stat_rel', 'stat_val', 'status']
 
 
 class PageAdminForm(forms.ModelForm):
