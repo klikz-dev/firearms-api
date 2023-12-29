@@ -99,6 +99,8 @@ class PageViewSet(viewsets.ModelViewSet):
         if category is not None:
             pages = pages.filter(category=category)
 
+        pages = pages.filter(product_num__gte=1)
+
         page = self.paginate_queryset(pages)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
