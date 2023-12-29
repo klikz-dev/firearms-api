@@ -263,7 +263,7 @@ class PageAdmin(admin.ModelAdmin):
     form = PageAdminForm
     filter_horizontal = ('product',)
 
-    list_filter = ['category']
+    list_filter = ['brand', 'category']
 
     search_fields = ['slug', 'title']
 
